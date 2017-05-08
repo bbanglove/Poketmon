@@ -1,12 +1,12 @@
 package designPrjAlgorithm;
 
 public class Pocketmon {
-	final private String mName;//Æ÷ÄÏ¸óÀÇ ÀÌ¸§
+	final private String mName;//ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
 	final private int mId; //id
-	private int mLocation; //À§Ä¡
+	private int mLocation; //ï¿½ï¿½Ä¡
 	final private int mCombatPower; //cp
 	final private int mHitPoint;//hp
-	private boolean catchFlag; //Àâ¾Ò´ÂÁö ¿©ºÎ¸¦ ÀúÀåÇÏ´Â ÇÃ·¡±×
+	private boolean catchFlag; //if catched true
 	
 	//constructor
 	public Pocketmon(String name, int id, int cp, int hp){

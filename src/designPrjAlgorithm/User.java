@@ -4,16 +4,16 @@ import designPrjAlgorithm.Pocketmon;
 import java.util.ArrayList;
 
 public class User {
-	final private String mName; //»ç¿ëÀÚ ÀÌ¸§
-	private int numOfMonsterBall;//°¡Áö°í ÀÖ´Â ¸ó½ºÅÍ º¼ÀÇ ¼ö
-	private ArrayList<Pocketmon> backOfMonster;//ÀâÀº ¸ó½ºÅÍ¸®½ºÆ®
+	final private String mName; //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+	private int numOfMonsterBall;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	private ArrayList<Pocketmon> backOfMonster;//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½Æ®
 	
 	//constructor
 	public User(String name)
 	{
 		this.mName = name;
-		numOfMonsterBall = 3;//ÃÊ±â ¸ó½ºÅÍº¼ °¹¼ö´Â 3À¸·Î ÃÊ±âÈ­
-		ArrayList<Pocketmon> backOfMonster = new ArrayList<Pocketmon>(); //»õ ¸®½ºÆ®¸¦ ÇÒ´çÇÑ´Ù. 
+		numOfMonsterBall = 3;//ï¿½Ê±ï¿½ ï¿½ï¿½ï¿½Íºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 3ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
+		//ArrayList<Pocketmon> backOfMonster = new ArrayList<Pocketmon>(); //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ò´ï¿½ï¿½Ñ´ï¿½. 
 	}
 	
 	//getFunctions
@@ -21,30 +21,30 @@ public class User {
 	public int getNumOfBall(){return numOfMonsterBall;}
 	
 	//set Functions
-	//¸ó½ºÅÍº¼ Ãß°¡ ¹× »ç¿ë
+	//ï¿½ï¿½ï¿½Íºï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
 	public void addMonsterBall()
 	{
-		numOfMonsterBall += 3;//Æ÷ÄÏ½ºÅ¾À» µé¸£¸é ÇÑ ¹ø¿¡ 3°³¸¦ ¾ò´Â´Ù.
+		numOfMonsterBall += 3;//ï¿½ï¿½ï¿½Ï½ï¿½Å¾ï¿½ï¿½ ï¿½é¸£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 3ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â´ï¿½.
 	}
 	public void useMonsterBall()
 	{
-		numOfMonsterBall -= 1; //¸ó½ºÅÍ¸¦ Àâ¾Æ ¸ó½ºÅÍº¼ÀÇ °¹¼ö°¡ ÇÏ³ª ÁÙ¾ú´Ù
+		numOfMonsterBall -= 1; //ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Íºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½Ù¾ï¿½ï¿½ï¿½
 	}
 	
-	//¸ó½ºÅÍ¸¦ ÀâÀ½
+	//ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public void addMonster(Pocketmon newMonster)
 	{
 		backOfMonster.add(newMonster);
 	}
 	
-	//¸ó½ºÅÍ¸¦ Àâ¾ÒÀ» °æ¿ìÀÇ operation ¼öÇà.
+	//ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ operation ï¿½ï¿½ï¿½ï¿½.
 	public void catchMonster(Pocketmon newMonster)
 	{
-		this.addMonster(newMonster);//ÀâÀº ¸ó½ºÅÍ¸¦ Ãß°¡ÇÏ°í
-		this.useMonsterBall();//¸ó½ºÅÍº¼ÀÇ °¹¼ö¸¦ ÁÙÀÎ´Ù.
+		this.addMonster(newMonster);//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ß°ï¿½ï¿½Ï°ï¿½
+		this.useMonsterBall();//ï¿½ï¿½ï¿½Íºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 	}
 	
-	//ÀâÀº Æ÷ÄÏ¸óÀÌ ÀÖ´ÂÁö ¿©ºÎ¸¦ Ã¼Å©ÇÑ´Ù.
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ Ã¼Å©ï¿½Ñ´ï¿½.
 	public boolean checkMonster(int monsterId)
 	{
 		for(int i = 0; i<backOfMonster.size(); i++){
