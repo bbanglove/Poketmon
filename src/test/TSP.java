@@ -1,5 +1,9 @@
 package test;
 
+import java.util.ArrayList;
+
+import designPrjAlgorithm.Edge;
+
 public class TSP {
 
 	
@@ -14,14 +18,58 @@ public class TSP {
 	 * @param visited 현재까지 경로
 	 * @return
 	 */
+
+	public TSP(int n, ArrayList<ArrayList<Edge>> weight)
+	{
+		N=n; //N 초기화
+		
+		
+		
+		ArrayList<Edge> eRow = new ArrayList<Edge>();
+		//W[][]초기화
+		//dp[][]초기화
+		W = new int[N][N];
+		dp = new int[N][(1<<N)];
+		
+		for (int i=0; i<N; i++)
+		{
+			for(int j=0; j<N; j++){
+				eRow.add(weight.get(i).get(j)); //임시 어레이리스트에 엣지 추가
+				W[i][j]=eRow.get(j).getWeight(); // W배열에 가중치 저장
+				if(eRow.get(j).getWeight() == -1){//만일 연결되어 있지 않다면,가중치를 0으로 바꿔서 가져온다.
+        			eRow.get(j).setWeight(0);
+        			W[i][j]=eRow.get(j).getWeight();
+				}	
+			}
+		}
+		
+		
+		// 모든 원소를 -1로 초기화
+		for (int i = 0; i < N; i++) {
+				for( int j= 0; j<(1<<N); j++){
+					dp[i][j]=-1;
+				}
+	    }
+		
+	}
+	
+	
+	
+	public ArrayList<Edge> getVertexNum(long  distance)
+	{
+		ArrayList<Edge> temp = new ArrayList<Edge>();
+		
+		
+		return temp;
+	}
 	
 	//최소비용 리턴 (우리 프로젝트에서는 시간이 해당)
 	public static int getShortestPath(int current, int visited) {
 		
 		// 모든 정점을 다 들른 경우 
 		//여기에 예외 생김.. 완전그래프 아닐경우에 값이 존재하지 않을 수 있는 경우를 위해 W[current][1] !=0 조건 추가했는데 테스트 한 케이스만 해봄
-		if (visited == (1 << N) - 1 && W[current][1] !=0)
-			return W[current][1];
+		if (visited == (1 << N) - 1 && W[current][0] !=0)
+			return W[current][0];
 
 		// 이미 들렀던 경로이므로 바로 return
 		if (dp[current][visited] >= 0)
@@ -30,16 +78,16 @@ public class TSP {
 		int ret = INF; //ret는 리턴할 값 임시 저장 변수
 
 		// 집합에서 다음에 올 원소를 고르자! (부분집합)
-		for (int i = 1; i <= N; i++) {
+		for (int i = 0; i < N; i++) {
 			int next = i;
 
-			if ((visited & (1 << (next - 1))) != 0) // 이미 방문한 곳인지 확인
+			if ((visited & (1 << next)) != 0) // 이미 방문한 곳인지 확인
 				continue;
 			
 			if(W[current][next] == 0 || W[current][next]==-1) // 0은 경로가 없으므로 pass
 				continue;
 			
-			int temp = W[current][next] + getShortestPath(next, visited + (1 << (next - 1)));
+			int temp = W[current][next] + getShortestPath(next, visited + (1 << next));
 			ret = Math.min(ret, temp);
 		}
 
@@ -52,35 +100,6 @@ public class TSP {
 	public static void main(String[] args){
 		
 		
-			int n= 5;
-			//int testNum = 1<<4;
-			
-			
-			
-			N=4;//N =5;
-			W = new int[N+1][N+1];
-			
-			dp = new int[N+1][(1<<N)+1];
-			
-			W[1][1]=0;
-			W[1][2]=1;
-			W[1][3]=2;
-			W[1][4]=2;
-			
-			W[2][1]=3;
-			W[2][2]=0;
-			W[2][3]=2;
-			W[2][4]=1;
-			
-			W[3][1]=1;
-			W[3][2]=2;
-			W[3][3]=0;
-			W[3][4]=0;
-			
-			W[4][1]=2;
-			W[4][2]=1;
-			W[4][3]=0;
-			W[4][4]=0;
 			
 			/*정점 5개 가지고 그림 그린거 테스트
 			W[1][1]=0;
@@ -114,17 +133,11 @@ public class TSP {
 			W[5][5]=0;
 			*/
 			
-			// 모든 원소를 -1로 초기화
-			for (int i = 1; i <= N; i++) {
-				for( int j= 1; j<=(1<<N); j++){
-					dp[i][j]=-1;
-				}
-			}
 			
 		 
-		System.out.print(getShortestPath(1, 1));
+		System.out.print(getShortestPath(0, 1)); //0 : 시작점, 1: 항상 visited 1로시작
 			
 	}
-}
+	}
 
 
