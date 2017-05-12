@@ -1,13 +1,11 @@
 package designPrjAlgorithm;
-import java.util.ArrayList;
 
 public class Vertex {
-	private int vertexNum;
-	private int mMonsterId;
-	private int mUserId;
-	private int visited;
-	private boolean pocketStop;
-	private ArrayList<Vertex> adjacentVertex = new ArrayList<Vertex>();
+	private int vertexNum; //노드의 위치 번호
+	private int mMonsterId; //노드에 위치한 몬스터의 아이디
+	private int mUserId; //노드에 위치한 유저의 아이디
+	private int visited; //방문되었는지 여부
+	private boolean pocketStop; //포켓스탑인지 여부
 	
 	//constructor
 	public Vertex(int vnum, boolean pStop){
@@ -17,7 +15,13 @@ public class Vertex {
 		this.visited = 0;
 		this.pocketStop = pStop;
 	}
-	
+	public Vertex(int vnum, int monsterId){
+		this.vertexNum = vnum;
+		this.mMonsterId = monsterId;
+		this.mUserId = 0;
+		this.visited = 0;
+		this.pocketStop = false;
+	}
 	//get Function
 	public int getVertexNum(){return this.vertexNum;}
 	public int getMonsterId() {return this.mMonsterId;}
@@ -32,5 +36,6 @@ public class Vertex {
 	public void setVisitedFlag(int vFlag){this.visited = vFlag;}
 	public void setPocketStop(boolean pStop){ this.pocketStop = pStop;}
 
+	
 
 }

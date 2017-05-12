@@ -21,6 +21,10 @@ public class Pocketmon {
 	public String getName(){ return mName;}
 	public int getId() {return mId;}
 	public int getLocation() {return mLocation;}
+	
+	//search
+	public int getIdFromLocation(int m_location){return mId;}
+	
 	public int getCP(){return mCombatPower;}
 	public int getHP(){return mHitPoint;}
 	public boolean getCatchFlag() {return catchFlag;}
@@ -31,3 +35,4 @@ public class Pocketmon {
 	public void changeFlag(){ this.catchFlag = false;}
 
 }
+	
