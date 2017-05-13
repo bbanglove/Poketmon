@@ -60,55 +60,26 @@ public class TSP {
 
 	public List<Integer> getVertexNum(int distance) // 경유 노드 저장
 	{
-		// List<Vertex> temp = new ArrayList<Vertex>();
 		 List<Integer> tem = new ArrayList<Integer>();
-		//
-		// int cur = (1 << N) - 1;
-		// int[] order = new int[N];
-		// int last = 0;
-		// for (int i = N - 1; i >= 1; i--) {
-		// int bj = 0;
-		// for (int j = 1; j < N; j++) {
-		// if ((cur & 1 << j) != 0 && (bj == 0 || dp[cur][bj] + W[bj][last] >
-		// dp[cur][j] + W[j][last])) {
-		// bj = j;
-		// }
-		// }
-		// order[i] = bj;
-		// cur ^= 1 << bj;
-		// last = bj;
-		// }
-		// System.out.println(Arrays.toString(order));
-		//
-		//
 
 		int piv = 0;
 		int masking = 1; // piv는 비교할 현재 노드, masking은 방문도시들
-		System.out.println("start Vertex in");
 		for (int i = 0; i < N; i++) {
 			
 			for (int k = 0; k < N; k++) {
-				System.out.println("("+i+","+k+") start");
-				System.out.println("\t privot : "+piv+"  k:"+k+" masking:"+Integer.toBinaryString(masking));
 				if ((masking & (1 << k)) != 0) // 방문한 노드인지 확인
-					{System.out.println("\t방문함 ");continue;}
+					continue;
 
 				if (W[piv][k] == 0) // 0은 경로가 없으므로 pass
-					{System.out.println("\t경로없음 ");continue;}
+					continue;
 
 				if (distance - W[piv][k] == dp[k][masking + (1 << k)]) {
 					// 경로저장
-					System.out.println("\t조건만족 distance:"+distance+" W[piv][k]:"+W[piv][k]+" dp[k]["+Integer.toBinaryString(masking + (1 << k))+"]:"+dp[k][masking + (1 << k)]);
 					tem.add(k);
 					distance = dp[k][masking + (1 << k)];
 					piv = k;
 					masking += (1 << k);
-					// v = new Vertex(k,);
-					// temp.add(v);
 					break;
-				}else{
-					System.out.println("\t불만족 distance:"+distance+" W[piv][k]:"+W[piv][k]+" dp[k]["+Integer.toBinaryString(masking + (1 << k))+"]:"+dp[k][masking + (1 << k)]);
-
 				}
 			}
 
@@ -155,7 +126,7 @@ public class TSP {
 	}
 
 	// 최소비용 리턴 (우리 프로젝트에서는 시간이 해당)
-	public static int getShortestPath(int current, int visited) {
+	private int getShortestPath(int current, int visited) {
 
 		// 모든 정점을 다 들른 경우
 		// 여기에 예외 생김.. 완전그래프 아닐경우에 값이 존재하지 않을 수 있는 경우를 위해 W[current][1] !=0 조건
@@ -190,27 +161,33 @@ public class TSP {
 
 	}
 
+	public int calculateShortestPath(int home) {
+		int shortPath = getShortestPath(home, (1 << home));
+		/**
+		 *  dp[x][home]의 정확한 계산을 위해서 아래의 for 문을 구현해야한다.
+		 *  getShortestPath 함수 내에서 모든 노드를 방문하면, dp[x][home]을 계산한다.
+		 *  하지만 추후 최단 경로 리스트를 찾기 위해 불러야할 getVertexNum 함수에서는 dp[x][1111]을 사용하여 마지막 돌아오는 경로를 계산한다.
+		 *  이때 아래의 작업을 해주지 않으면 dp[x][1111]은 -1이 되어서 마지막 경로가 계산이 되지 않는다.
+		 *  따라서 dp[x][1111]에 dp[x][home] 값을 할당해줘야한다.
+		 */
+		for (int i = 0; i < N; i++) {
+			dp[i][(1 << N) - 1] = dp[i][home];
+		}
+		return shortPath;
+	}
 	public static void main(String[] args) {
 
 		TSP t = new TSP();
-		int shortPath = t.getShortestPath(0, 1);
-		for(int i=0; i<N ;i++){
-			dp[i][(1<<N)-1]=dp[i][0];
-			System.out.println("dp["+i+"]["+((1<<N)-1)+"]:"+dp[i][(1<<N)-1] + "\tdp["+i+"][0]"+dp[i][0]);
-		}
+		int shortPath = t.calculateShortestPath(0);
+		
 		List<Integer> showVertex = new ArrayList<Integer>();
 		System.out.println(shortPath);
 		showVertex = t.getVertexNum(shortPath);
 
 		System.out.println("size : " + showVertex.size());
-//		for (int i = 0; i < showVertex.size(); i++) {
-//			System.out.print(showVertex.get(i) + " ");
-//		}
 		for(int result : showVertex){
 			System.out.print(result +"\t");
 		}
-		// System.out.print(getShortestPath(0, 1)); //0 : 시작점, 1: 항상 visited
-		// 1로시작
 
 	}
 
