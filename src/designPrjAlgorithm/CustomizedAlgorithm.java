@@ -15,7 +15,7 @@ import java.util.List;
  * @author Jung-eun Kim
  *
  */
-public class CustomizedShortestPathAlgorithm {
+public class CustomizedAlgorithm {
 
 	private Edge[][] edgeMatrix;
 	private List<Vertex> vertexList;
@@ -24,10 +24,13 @@ public class CustomizedShortestPathAlgorithm {
 	private VertexTreeNode curShortestTreeLeaf;
 	
 	
-	public CustomizedShortestPathAlgorithm(List<Vertex> vertexList, Edge[][] edgeMatrix){
+	public CustomizedAlgorithm(List<Vertex> vertexList, Edge[][] edgeMatrix){
 		this.vertexList=vertexList;
 		this.edgeMatrix=edgeMatrix;
 		this.curShortestPath = Integer.MAX_VALUE;
+	}
+	private void initialize(){
+		this.curShortestPath=Integer.MAX_VALUE;
 	}
 	/**
 	 * 오직 이 메소드를 통해서만알고리즘 계산 결과를 가져간다.
@@ -36,6 +39,7 @@ public class CustomizedShortestPathAlgorithm {
 	 * @return ShortestPathResult 객체. 경로자체가 없다면 shortestPaht List의 size가 0, shortestPathWeight가 0 으로 리턴된다.
 	 */
 	public ShortestPathResult getShortestPathResult(Vertex start, Vertex end) {
+		initialize();
 		List<Vertex> resultPath = new ArrayList<>();
 		try {
 			curShortestTreeLeaf = new VertexTreeNode(null, start);
@@ -70,13 +74,10 @@ public class CustomizedShortestPathAlgorithm {
 						continue;
 				}
 				//단, vertexList에 들어간 순서와, 실제 vertexNum-1 이 일치한다는 전제아래. 테스트결과 일치
-				System.out.println("("+i+","+(curVertex.getVertexNum()-1)+") : "+curWeight);
 				curNode.addChild(vertexList.get(i));
-				System.out.println("add succcess");
 				
 			}
 		}
-		System.out.println("end for : "+(curVertex.getVertexNum()-1));
 		
 		//위에 자식을 추가한 작업을 반영하여, shortest path를 찾는다.
 		for(VertexTreeNode node : curNode.getChildren()){
@@ -135,7 +136,11 @@ public class CustomizedShortestPathAlgorithm {
 			if(checkOverFlow(this)>100){
 				throw new TreeOverFlowException();
 			}
-			totalPath=calculateTotalPath(this);
+			if(this.parent ==null){
+				this.totalPath=0;
+			}else{
+				this.totalPath = parent.getTotalPath() + edgeMatrix[this.vertex.getVertexNum()-1][parent.getVertex().getVertexNum()-1].getWeight();
+			}
 		}
 		 
 		private int checkOverFlow(VertexTreeNode leaf){

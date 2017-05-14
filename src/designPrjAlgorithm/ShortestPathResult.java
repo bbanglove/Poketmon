@@ -4,10 +4,10 @@ import java.util.List;
 
 public class ShortestPathResult {
 	private List<Vertex> shortestPath;
-	private int shortestPahtWeight;
+	private int shortestPathWeight;
 	
 	public ShortestPathResult(List<Vertex> shortestPath, int shortestPahtWeight) {
-		this.shortestPahtWeight=shortestPahtWeight;
+		this.shortestPathWeight=shortestPahtWeight;
 		this.shortestPath=shortestPath;
 	}
 
@@ -15,7 +15,7 @@ public class ShortestPathResult {
 		return shortestPath;
 	}
 
-	public int getShortestPahtWeight() {
-		return shortestPahtWeight;
+	public int getShortestPathWeight() {
+		return shortestPathWeight;
 	}
 }
