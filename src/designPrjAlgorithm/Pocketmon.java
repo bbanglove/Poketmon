@@ -17,6 +17,13 @@ public class Pocketmon {
 		this.catchFlag = false;
 	}
 	
+	public Pocketmon(String name, int id){
+		this.mName = name;
+		this.mId = id;
+		this.catchFlag = false;
+		mCombatPower=0;
+		mHitPoint=0;
+	}
 	//get functions
 	public String getName(){ return mName;}
 	public int getId() {return mId;}

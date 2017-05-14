@@ -28,7 +28,7 @@ public class User {
 	}
 	public void useMonsterBall()
 	{
-		numOfMonsterBall -= 1; //���͸� ��� ���ͺ��� ������ �ϳ� �پ���
+		numOfMonsterBall--; //���͸� ��� ���ͺ��� ������ �ϳ� �پ���
 	}
 	
 	//���͸� ����
@@ -47,10 +47,9 @@ public class User {
 	//���� ���ϸ��� �ִ��� ���θ� üũ�Ѵ�.
 	public boolean checkMonster(int monsterId)
 	{
-		for(int i = 0; i<backOfMonster.size(); i++){
-			if(backOfMonster.get(i).getId() == monsterId){
+		for(Pocketmon pocketmon : backOfMonster){
+			if(pocketmon.getId() == monsterId)
 				return true;
-			}
 		}
 		return false;
 	}
