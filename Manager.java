@@ -384,22 +384,22 @@ public class Manager {
 		//this.findNearestPocketStop(orderVertex);
 		this.calcSolutionList1(numOfPStop, orderEdge, orderVertex);
 	}
-	
+	//최단 소요 시간을계산하는 함수
 	public int minTimeVisitPocketStop(int vnum, ArrayList<Edge> eList, ArrayList<Vertex> vList)
 	{
-		int min= 1000000;
+		int min= 1000000; //최소값을 담을 변수 초기화
 		int start = 0;
 		
 		//구간별 포켓스탑의 갯수를 저장하자.
-		int section1 = 0; int section2 = 0; int section3 = 0;
+		int section1 = 0; int section2 = 0; int section3 = 0; 
 		ArrayList<Integer> indexPStop = new ArrayList<Integer>();
 		for(int i = 0; i<indexPStop.size(); i++)
 		{
-			if(indexPStop.get(i) <4)
+			if(indexPStop.get(i) <4) //만약 첫번째 구간에 포켓스탑이 존재한다면
 				section1++;
-			else if(indexPStop.get(i) > 3 &&indexPStop.get(i) < 7 )
+			else if(indexPStop.get(i) > 3 &&indexPStop.get(i) < 7 )//두번째구간에 존재
 				section2++;
-			else if(indexPStop.get(i) > 6)
+			else if(indexPStop.get(i) > 6)//세번째 구간에 존재
 				section3++;
 		}		
 		
@@ -409,20 +409,22 @@ public class Manager {
 			int ptime1 = 0; int pStop = 0; int visit1 =0; int visit2 = 0; //포켓스탑으로 우회했는지 여부를 알려주는 플래그
 			if(vnum>3 && section1 == 0)//4보다 더 많이 지나는데 첫번째 구간 내에 포켓스탑이 없다면
 			{
-				visit2 = 1;
-				pStop = this.findNearestPocketStop(vList).get(3).getVertexNum() -1;
-				int src = vList.get(3).getVertexNum()-1;
-				int dst= vList.get(4).getVertexNum()-1;
-				ptime1 = this.shortestPath.get(src).get(pStop).getWeight() + this.shortestPath.get(pStop).get(dst).getWeight();
-				this.vertexList.get(pStop).setVisitedFlag(1);
+				visit2 = 1; //포켓스탑 우회 경로를 한 번 통과하였음
+				pStop = this.findNearestPocketStop(vList).get(3).getVertexNum() -1; //해당 포켓스탑의 인덱스
+				int src = vList.get(3).getVertexNum()-1; //출발점의 인덱스
+				int dst= vList.get(4).getVertexNum()-1; //도착점의 인덱스
+				//해당 포켓스탑을경유하는 비용을 계산
+				ptime1 = this.shortestPath.get(src).get(pStop).getWeight() + this.shortestPath.get(pStop).get(dst).getWeight(); 
+				this.vertexList.get(pStop).setVisitedFlag(1); //해당 포켓스탑의 방문 플래그를 1로 바꿔준다.
 			}
 			
 			int ptime2 = 0; int pStop2 = 0;
 			if(vnum>6 && section1 != 2){ //두 개를 들러야 할 경우, 두 번쨰 구간에서의 맨 첫 번째 에지에서 들린다. 
-				visit2 = 1;
-				int src2 = vList.get(6).getVertexNum()-1;
-				int dst2 = vList.get(7).getVertexNum()-1;
-				pStop2 = this.findNearestPocketStop(vList).get(6).getVertexNum()-1;
+				visit2 = 1;//두 번째 우회경로를 통과하였슴
+				int src2 = vList.get(6).getVertexNum()-1;//출발점의 인덱스
+				int dst2 = vList.get(7).getVertexNum()-1;//도착점의 인덱스
+				pStop2 = this.findNearestPocketStop(vList).get(6).getVertexNum()-1;//해당 포켓스탑의 인덱스
+				//해당 포켓스탑을경유하는 비용을 계산
 				ptime2 = this.shortestPath.get(src2).get(pStop2).getWeight() + this.shortestPath.get(pStop2).get(dst2).getWeight();
 				this.vertexList.get(pStop2).setVisitedFlag(1);
 			}
@@ -433,9 +435,9 @@ public class Manager {
 			int time3 = 0;
 			for(int j = i; j< i + vnum -1; j++){
 				this.vertexList.get(vList.get(j).getVertexNum()-1).setVisitedFlag(1);
-				boolean skip1 = (j == 3 && visit1 ==1);
-				boolean skip2 = (j == 6 && visit2 ==1);
-				if((!skip1 || !skip2)){
+				boolean skip1 = (j == 3 && visit1 ==1); //첫번쨰 우회경로를 들른 상황
+				boolean skip2 = (j == 6 && visit2 ==1); //두 번째 우회결로를 들른 상황
+				if((!skip1 || !skip2)){ //만약 둘 중 어느 한 조건에라도 해당이 되지 않는다면
 					time3 += eList.get(j).getWeight();
 				}
 				
@@ -526,13 +528,21 @@ public class Manager {
 		
 	}
 	
+	
+	////알고리즘 3/////
+	
 
 	public static void main(String[] args){
+		long start = System.currentTimeMillis();
 		Manager tempM = new Manager();
 		
 		tempM.setMonster(3);
 		tempM.setTime(300);
+		//long start = System.currentTimeMillis();
 		tempM.calcAlgorithm1();
+		long end = System.currentTimeMillis();
+
+		System.out.println( "실행 시간 : " + ( end - start )/1000.0);
 	}
 
 }
