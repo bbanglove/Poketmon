@@ -5,30 +5,28 @@ import designPrjAlgorithm.Edge;
 import java.util.ArrayList;
 
 public class Graph {
-	private Vertex[][] vertexList;
-	private Edge[][] edgeList;
+	private ArrayList<Vertex> vertexList = new ArrayList<Vertex>(); //100짜리 1차원 행렬로 바꿈
+	private ArrayList<ArrayList<Edge>> edgeList = new ArrayList<ArrayList<Edge>>();
 	private int sizeOfArray;
 	
 	//constructor
 	public Graph()
 	{
-		vertexList = new Vertex[100][100];
-		edgeList = new Edge[100][100];
 		this.sizeOfArray = 100;
 		
 	}
-	public Graph(Vertex[][] vList, Edge[][] eList, int size)
+	public Graph(ArrayList<Vertex> vList, ArrayList<ArrayList<Edge>> eList, int size)
 	{
 		this.vertexList = vList;
 		this.edgeList = eList;
 		this.sizeOfArray = size;
 	}
 	
-	public Vertex[][] getVertexList(){
+	public ArrayList<Vertex> getVertexList(){
 		return this.vertexList;
 	}
 	
-	public Edge[][] getEdgeList(){
+	public ArrayList<ArrayList<Edge>> getEdgeList(){
 		return this.edgeList;
 	}
 	

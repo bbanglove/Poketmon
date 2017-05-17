@@ -1,57 +1,138 @@
 package designPrjAlgorithm;
 
-import designPrjAlgorithm.Graph;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import designPrjAlgorithm.Edge;
 
+
+//ï¿½ï¿½Ã¼ ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Æ´ï¿½ weightï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½Ìµï¿½ ï¿½Ë°ï¿½ï¿½ï¿½
+//ï¿½Ã·ï¿½ï¿½Ìµï¿½ï¿½ 
 public class Floyd {
-	private Graph mGraph; //ÀÔ·Â ±×·¡ÇÁ
-	private List<Vertex> shortestPath;
-	
-	//Constructor
-	public Floyd(){
-		this.mGraph = null;
-		this.shortestPath = null;
-	}
-	public Floyd(Graph graph){
-		mGraph = graph;
-		shortestPath = null;
-	}
-	
-	//get Function
-	public Graph getGraph(){
-		return this.mGraph;
-	}
-	
-	public List<Vertex> getShortestPath(){
-		return this.shortestPath;
-	}
-	
-	//set Function
-	public void setGraph(Graph graph){
-		this.mGraph = graph;
-	}
-	public void setShortestPath(List<Vertex> list){
-		this.shortestPath = list;
-	}
-	public List<Vertex> calcShortest()//ÃÖ´Ü °æ·Î °è»ê ¹× ¹ÝÈ¯ ÇÔ¼ö
-	{	
-		for(int k = 0; k<mGraph.getSize(); k++){ //ÀüÃ¼ »çÀÌÁî¿¡ ´ëÇØ 
-			for(int i =0; i<mGraph.getSize(); i++){
-				for(int j = 0; j<mGraph.getSize(); j++){
-					if(mGraph.getEdgeList()[i][j].getWeight() > mGraph.getEdgeList()[i][k].getWeight() + mGraph.getEdgeList()[k][j].getWeight()){ //°ÅÃÄ °¡´Â °æ·Î¿Í ±×³É °¡´Â °æ·Î¸¦ ºñ±³ÇØ¼­ ¹Ù·Î °¡´Â °ÍÀÌ ´õ ´À¸®´Ù¸é
-						this.shortestPath.add(mGraph.getVertexList()[i][k]); //°ÅÃÄ °¡´Â °æ·Î¸¦ ³Ö´Â´Ù.
-						this.shortestPath.add(mGraph.getVertexList()[k][j]);
-					}
-					else{//¹Ù·Î °¡´Â °ÍÀÌ ´õ ºü¸£
-						this.shortestPath.add(mGraph.getVertexList()[i][j]);
-					}
-				}
+
+    // graph represented by an adjacency matrix
+    //private Edge[][] graph = new Edge[100][100];//ï¿½Ë´ï¿½ ï¿½ï¿½Î°ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+    private ArrayList<ArrayList<Edge>> graph = new ArrayList<ArrayList<Edge>>();
+    private ArrayList<ArrayList<Integer>> pGraph = new ArrayList<ArrayList<Integer>>(); 
+	public static final int INF = 1000000000; //ï¿½ï¿½ï¿½Ï°ï¿½ default  - ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ë¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+    private int size;// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ size ï¿½ï¿½ï¿½ï¿½
+   // private Edge[][] dimen = new Edge[100][100];//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½
+    private ArrayList<Edge> eSelected = new ArrayList<Edge>();
+    private ArrayList<Integer> selectedEdgeNum = new ArrayList<Integer>();
+    private int[][] visited = new int[100][100];
+    
+    
+    public ArrayList<ArrayList<Edge>> getGraph()//ï¿½Ö´Ü°ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
+    {
+    	return graph;
+    }
+    
+    public ArrayList<ArrayList<Integer>> getPGraph(){return pGraph;}
+    
+    public int[][] getVisited()
+    {
+    	return visited;
+    }
+    
+    public int getvisitedVNum(int i,int j)
+    {
+    	return visited[i][j];
+    }
+    
+    public ArrayList<Edge> getSelectedEdge()
+    {
+    	return this.eSelected;
+    }
+    //constrouctor
+    public Floyd(int n, ArrayList<ArrayList<Edge>> weight) { //ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­ï¿½ï¿½ ï¿½Þ¾ï¿½ ï¿½Ê±ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+        this.size = n;//ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½î¸¦ ï¿½Ê±ï¿½È­
+        for(int i = 0; i<100; i++)
+        	for(int j = 0; j<100; j++)
+        		visited[i][j] = 0;
+        for(int i = 0; i<n; i++)//ï¿½ï¿½Ã¼ Å©ï¿½â¿¡ ï¿½ï¿½ï¿½ï¿½
+        {
+        	ArrayList<Edge> eRow = new ArrayList<Edge>();
+        	ArrayList<Integer> vRow = new ArrayList<Integer>();
+        	for(int j = 0; j<n; j++){
+        		eRow.add(weight.get(i).get(j));
+        		vRow.add(0);
+        		//System.arraycopy(weight, 0, graph, 0, weight.length);
+        		//System.arraycopy(weight, 0, dimen, 0, weight.length);
+        		//graph[i][j] = weight[i][j];//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+        		//dimen[i][j] = weight[i][j];
+        		if(eRow.get(j).getWeight() == -1){//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Ù¸ï¿½,ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+        			eRow.get(j).setWeight(INF);
+        			vRow.add(0);
+        			//dimen[i][j].setWeight(INF);
+        		}
+        	}
+        	graph.add(eRow);
+        	pGraph.add(vRow);
+        }
+    }
+    //ï¿½ßºï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ä°¡ ï¿½ï¿½ï¿½ï¿½.
+    //ï¿½Ö³ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Floydï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ - ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½Ì±ï¿½ ï¿½ï¿½ï¿½ï¿½.
+    public void addEdgeNum(int eNum){//ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ï¿½ï¿½ Ã¼Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´Ù¸ï¿½ selectedEdgeNum ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Ô½ï¿½Å²ï¿½ï¿½.
+    	for(int i = 0; i < this.selectedEdgeNum.size();i++){
+    		if(this.selectedEdgeNum.get(i) == eNum)
+    			return;
+    	}
+    	this.selectedEdgeNum.add(eNum);
+    }
+    
+    public void getShortestPath(ArrayList<Vertex> vList){ //ï¿½Ö´Ü°ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
+    	for(int k = 0; k<this.size; k++){//ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å­ ï¿½Ýºï¿½ï¿½Ñ´ï¿½.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    		for(int i = 0; i<this.size; i++){//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    			for(int j = 0; j<this.size; j++){//ï¿½ß°ï¿½ï¿½ï¿½
+    				if(graph.get(i).get(j).getWeight() > graph.get(i).get(k).getWeight() + graph.get(k).get(j).getWeight()){//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ä°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½
+    					//eSelected.add(dimen[i][k]);
+    					//eSelected.add(dimen[k][j]);
+    					graph.get(i).get(j).setWeight(graph.get(i).get(k).getWeight() + graph.get(k).get(j).getWeight()); //ï¿½Ø´ï¿½ ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+    					graph.get(i).get(j).setPostVertex(graph.get(k).get(j).getPostVertex());
+    					pGraph.get(i).set(j, k);
+    					this.visited[i][j] = vList.get(k).getVertexNum()-1;
+    				if(graph.get(i).get(k).getPostVertex().getPocketStop()) //ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½Ö´ï¿½ vertexï¿½ï¿½ ï¿½ï¿½ï¿½Ï½ï¿½Å¾ï¿½Ì¶ï¿½ï¿½
+    						graph.get(i).get(j).addPocketStop(); //ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï½ï¿½Å¾ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
+    					//dimen[i][j] = k;
+    					//this.addEdgeNum(dimen[i][k].getEdgeNum());
+    					//this.addEdgeNum(dimen[k][j].getEdgeNum());
+    			
+    				}
+    				else{
+    					//eSelected.add(dimen[i][j]);
+    					//this.addEdgeNum(dimen[i][j].getEdgeNum());
+    					graph.get(i).get(j).addMonsterNum();
+    				}
+    				//this.visited.add(vList.get(j));
+    				//vList.get(j).setVisitedFlag(1);//ï¿½æ¹®ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
+    			}
+    		}
+    	}
+    }
+/*
+	public static void main(String[] args)//ï¿½×½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½
+	{
+		int [][] temp = {{0, 3, -1, -1}, {-1, 0,12, 6}, {-1, 5, 0, 7}, {2, 9, 4, 0},};
+		Edge[][] etemp = new Edge[3][3];
+		
+		for(int i = 0; i<3; i++)
+		{
+			for(int j = 0; j<3; j++)
+			{
+				Edge t =  new Edge(i*10 + j, temp[i][j]);
+				etemp[i][j] = t;
 			}
 		}
 		
-		return this.shortestPath;
+		Floyd f = new Floyd(3, etemp);
+		f.getShortestPath();
+		for(int i = 0; i<3; i++){
+			for(int j = 0; j<3; j++){
+				System.out.println(f.getGraph()[i][j].getWeight());
+			}
+		}
+		
+		
 	}
-	
-	
+*/
 
 }
