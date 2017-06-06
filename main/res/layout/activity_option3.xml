@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="designprjalgorithm.goketmon.Option3Activity">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/homeButton"
+        android:background="@drawable/pokemongo"
+        android:layout_alignParentTop="true"
+        android:onClick="onClickHome"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" Enjoy cathcing various monsters!!"
+        android:textSize="20dp"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/homeButton"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorMain"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        android:onClick="onClickContinueOp3"
+        android:id="@+id/startOp3Btn"
+        android:background="@drawable/btnmini"
+        android:textColor="@color/colorMain"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp"/>
+</RelativeLayout>

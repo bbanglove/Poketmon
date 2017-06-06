@@ -1,0 +1,10 @@
+1:Pikachu
+2:Raichu
+3:Charmander
+4:Squirtle
+5:Butterfree
+6:Slowbro
+7:Pidgeott
+8:Koffing
+9:AeroDactyl
+10:Charizard
